@@ -12,29 +12,33 @@
   <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 
-    <h1>Change password</h1>
+    <h1 class="title">Change password</h1>
 
-    <form action="./updatepass.php" method="post">
-        <div class="mb-3">
-            <label for="password" class="form-label">Enter new password</label>
-            <input type="password" class="form-control" id="password" name="password">
-        </div>
-        <div class="mb-3">
-            <label for="password-reenter" class="form-label">Re-Enter new password</label>
-            <input type="password" class="form-control" id="password-reenter" name="password_reenter">
-        </div>
-        <button type="submit" class="btn btn-primary">Change password</button>
-    </form>
+    <div class="form-container">
+      <form action="./updatepass.php" method="post">
+          <div class="mb-3">
+              <label for="password" class="form-label">Enter new password</label>
+              <input type="password" class="form-control" id="password" name="password">
+          </div>
+          <div class="mb-3">
+              <label for="password-reenter" class="form-label">Re-Enter new password</label>
+              <input type="password" class="form-control" id="password-reenter" name="password_reenter">
+          </div>
+          <div class="btn-container">
+            <button type="submit" class="btn btn-primary">Change password</button>
+            <button type="button" class="btn btn-primary goto-login-page"><a href="./index.php">Login page</a></button>
+          </div>
+      </form>
+    </div>
+    
+
 
     <?php
+      session_start();
       define("SERVERNAME", "localhost");
       define("USERNAME", "root");
       define("USERPASS", "");
       define("DATABASE", "user_data");
-
-      $email = $_GET["email"];
-      echo var_dump($_GET);
-      echo $email;
 
       $conn = mysqli_connect(SERVERNAME, USERNAME, USERPASS, DATABASE);
 
@@ -53,8 +57,7 @@
       
       if($_SERVER["REQUEST_METHOD"] == "POST")
       {
-        echo $email . "<br>";
-
+        $email = $_SESSION["email"];
         $password = $_POST["password"];
         $password_reenter = $_POST["password_reenter"];
 
@@ -64,18 +67,25 @@
             die();
         }
 
-        $sql = "UPDATE SET password='$password' WHERE email='$email'";
+        $sql = "UPDATE login_data SET password='$password' WHERE email='$email'";
 
         $res = mysqli_query($conn, $sql);
 
         if(!$res)
         {
           $error = mysqli_error($conn);
+          echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong>Unable to update your password at the moment.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
           echo "<script>console.error(`Unable to update your password: $error`)</script>";
           die();
         }
 
-        echo "<h1>password updated successfully</h1>";
+        echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success!</strong> Your password was updated sucessfully.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
       }
     ?>
   </body>

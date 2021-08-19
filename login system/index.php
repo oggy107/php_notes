@@ -12,7 +12,7 @@
   <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 
-    <h1 class="title">Welcome to website :)</h1>
+    <h1 class="title">Welcome to my website :)</h1>
     <h2 class="title">Login to continue</h2>
 
    <div class="form-container">
@@ -33,6 +33,7 @@
     </form>
 
     <?php
+      session_start();
       define("SERVERNAME", "localhost");
       define("USERNAME", "root");
       define("USERPASS", "");
@@ -69,6 +70,8 @@
       {
         $email = $_POST["email"];
         $password = $_POST["password"];
+
+        $_SESSION['email'] = $email;
 
         $sql = "SELECT * FROM login_data WHERE email='$email'";
 
@@ -109,7 +112,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>';
 
-        echo '<button type="button" class="btn btn-primary"><a href="./updatepass.php?email=' . $email . '">Change password</a></button>';
+        echo '<div class="btn-container">
+                  <button type="button" class="btn btn-primary"><a href="./updatepass.php">Change password</a></button>
+                  <button type="button" class="btn btn-danger"><a href="./acc_delete.php">Delete Account</a></button>
+              </div>';
       }
     ?>
    </div>
