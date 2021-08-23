@@ -1,0 +1,10 @@
+This is initial text.
+testing...
+testing...
+learning php... :)this text is appended using php. enjoy
+this text is appended using php. enjoy
+this text is appended using php. enjoy
+this text is appended using php. enjoy
+this text is appended using php. enjoy
+this text is appended using php. enjoy
+this text is appended using php. enjoy
